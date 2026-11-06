@@ -1,0 +1,13 @@
+# Dependencias
+node_modules/
+
+# Base de datos local
+*.sqlite
+*.db
+
+# Archivos del sistema (Mac/Windows)
+.DS_Store
+Thumbs.db
+
+# Archivos de entorno
+.env

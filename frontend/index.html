@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Virtual EICIT</title>
+    <!-- Tailwind CSS vía CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased">
+
+    <!-- Barra de Navegación -->
+    <nav class="bg-blue-900 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wider">📚 Biblioteca Virtual</h1>
+            <div class="text-sm">
+                <span class="mr-4">Bienvenido, Estudiante</span>
+                <a href="admin.html" class="bg-blue-700 hover:bg-blue-600 px-3 py-1 rounded">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Área de Búsqueda y Filtros -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="bg-white p-4 rounded-lg shadow-sm flex flex-col md:flex-row gap-4 items-center">
+            
+            <!-- Buscador -->
+            <input type="text" id="input-busqueda" placeholder="Buscar por título, autor o tema..." 
+                   class="w-full md:w-1/2 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            
+            <!-- Selector de Área (Se llena automáticamente con JS) -->
+            <select id="select-area" 
+                    class="w-full md:w-1/4 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Todas las áreas</option>
+            </select>
+            
+            <!-- Botón Buscar -->
+            <button id="btn-buscar" 
+                    class="w-full md:w-1/4 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
+                Buscar
+            </button>
+            
+        </div>
+    </div>
+
+    <!-- Contenedor de Libros (Grid) -->
+    <main class="container mx-auto px-4 pb-12">
+        <!-- Aquí JavaScript inyectará las tarjetas de los libros -->
+        <div id="contenedor-libros" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Mensaje de carga inicial -->
+            <p class="text-gray-500 col-span-3 text-center py-10">Cargando libros...</p>
+        </div>
+    </main>
+
+    <!-- Script para conectar con el backend -->
+    <script src="js/app.js"></script>
+</body>
+</html>

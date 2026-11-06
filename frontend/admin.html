@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración - Biblioteca Virtual</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased pb-12">
+        <!-- Pantalla de Login (Overlay) -->
+    <div id="pantalla-login" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-2xl w-96 text-center">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">Acceso Restringido</h2>
+            <p class="text-sm text-gray-500 mb-6">Ingresa la contraseña de administrador</p>
+            
+            <form id="form-login" class="space-y-4">
+                <input type="password" id="input-password" placeholder="Contraseña" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center">
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">
+                    Ingresar
+                </button>
+            </form>
+            <p id="error-login" class="text-red-500 text-sm mt-3 hidden">Contraseña incorrecta</p>
+        </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="bg-gray-900 text-white shadow-md mb-8">
+        <div class="flex gap-4">
+            <a href="index.html" class="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded flex items-center">Volver a la Biblioteca</a>
+            <button onclick="cerrarSesion()" class="text-sm bg-red-600 hover:bg-red-700 px-3 py-1 rounded flex items-center">Cerrar Sesión</button>
+        </div>    
+    </nav>
+
+    <main class="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Formulario para agregar libro -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Agregar Nuevo Libro</h2>
+            
+            <form id="form-agregar-libro" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Título del Libro</label>
+                    <input type="text" name="titulo" required class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Autor</label>
+                        <input type="text" name="autor" required class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Área del Conocimiento</label>
+                        <input type="text" name="area" required placeholder="Ej: Matemáticas" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Año de Publicación</label>
+                        <input type="number" name="año_publicacion" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Editorial</label>
+                        <input type="text" name="editorial" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Sinopsis / Reseña</label>
+                    <textarea name="sinopsis" rows="3" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded border">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Archivo del Libro (PDF/EPUB)</label>
+                        <input type="file" name="archivo_libro" required accept=".pdf,.epub" class="mt-1 w-full text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Formato</label>
+                        <select name="formato" required class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2">
+                            <option value="PDF">PDF</option>
+                            <option value="EPUB">EPUB</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Imagen de Portada (Opcional)</label>
+                    <input type="file" name="portada" accept="image/*" class="mt-1 w-full text-sm">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                    Guardar Libro
+                </button>
+            </form>
+            <div id="mensaje-formulario" class="mt-4 hidden text-center font-semibold"></div>
+        </div>
+
+        <!-- Lista para eliminar libros -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2 text-red-600">Eliminar Libros</h2>
+            <div id="lista-libros-admin" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                <!-- JavaScript cargará los libros aquí -->
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/admin.js"></script>
+
+        <!-- Modal para Editar Portada -->
+    <div id="modal-editar" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-96">
+            <h3 class="text-xl font-bold mb-4">Editar Portada</h3>
+            <p id="modal-titulo-libro" class="text-sm text-gray-600 mb-4 font-semibold"></p>
+            
+            <form id="form-editar-portada" class="space-y-4">
+                <input type="hidden" id="edit-libro-id">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nueva Imagen</label>
+                    <input type="file" id="edit-portada-file" required accept="image/*" class="mt-1 w-full text-sm">
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="cerrarModal()" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
