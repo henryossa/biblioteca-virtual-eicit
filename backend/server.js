@@ -6,9 +6,14 @@ const { Pool } = require('pg');
 const { createClient } = require('@supabase/supabase-js');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const allowedOrigins = [
+  'https://biblioteca-virtual-eicit-frontend.vercel.app', // <--- LA URL CORRECTA
+  'http://localhost:3000',
+  'http://127.0.0.1:5500' // Por si usas Live Server localmente
+];
 
 // Configuración de Supabase y Base de Datos
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
@@ -20,7 +25,18 @@ const pool = new Pool({
 // Configuración de Multer (Guardado en memoria, no en disco)
 const upload = multer({ storage: multer.memoryStorage() });
 
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    // Permite peticiones sin origen (como Postman) o si está en la lista
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  }
+}));
+
+//app.use(cors());
 app.use(express.json());
 
 // --- MIDDLEWARE DE SEGURIDAD ---
