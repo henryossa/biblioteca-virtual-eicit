@@ -2,7 +2,6 @@
 
 const API_URL = 'http://localhost:3000/api/libros';
 const API_AREAS = 'http://localhost:3000/api/areas';
-const FILES_URL = 'http://localhost:3000/files';
 
 document.addEventListener('DOMContentLoaded', () => {
     cargarAreas(); // Llena el desplegable
@@ -67,16 +66,20 @@ async function cargarLibros(busqueda = '', area = '') {
             const portadaUrl = libro.ruta_portada ? libro.ruta_portada : 'https://via.placeholder.com/150x220?text=Sin+Portada';
             
             let botonAccionHTML = '';
+            
+            // Al usar libro.ruta_archivo directamente, usamos la URL completa de Supabase
             if (libro.formato === 'PDF') {
                 botonAccionHTML = `
-                    <a href="${FILES_URL}/${libro.ruta_archivo}" target="_blank" class="flex-1 bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold py-1 px-2 rounded border border-blue-200 transition text-center flex items-center justify-center">
+                    <a href="${libro.ruta_archivo}" target="_blank" class="flex-1 bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold py-1 px-2 rounded border border-blue-200 transition text-center flex items-center justify-center">
                         Leer PDF
-                    </a>`;
+                    </a>
+                `;
             } else {
                 botonAccionHTML = `
-                    <a href="${FILES_URL}/${libro.ruta_archivo}" download class="flex-1 bg-purple-50 text-purple-700 hover:bg-purple-100 text-xs font-semibold py-1 px-2 rounded border border-purple-200 transition text-center flex items-center justify-center">
+                    <a href="${libro.ruta_archivo}" download class="flex-1 bg-purple-50 text-purple-700 hover:bg-purple-100 text-xs font-semibold py-1 px-2 rounded border border-purple-200 transition text-center flex items-center justify-center">
                         Descargar EPUB
-                    </a>`;
+                    </a>
+                `;
             }
 
             const tarjetaHTML = `
@@ -92,7 +95,8 @@ async function cargarLibros(busqueda = '', area = '') {
                         </div>
                         <div class="flex gap-2 mt-2">
                             ${botonAccionHTML}
-                            <a href="${FILES_URL}/${libro.ruta_archivo}" download class="flex-1 bg-green-50 text-green-700 hover:bg-green-100 text-xs font-semibold py-1 px-2 rounded border border-green-200 transition text-center flex items-center justify-center">
+                            <!-- Aquí también cambiamos el enlace de descarga general -->
+                            <a href="${libro.ruta_archivo}" download class="flex-1 bg-green-50 text-green-700 hover:bg-green-100 text-xs font-semibold py-1 px-2 rounded border border-green-200 transition text-center flex items-center justify-center">
                                 Descargar
                             </a>
                         </div>
