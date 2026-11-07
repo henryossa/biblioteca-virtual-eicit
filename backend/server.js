@@ -6,24 +6,42 @@ const { Pool } = require('pg');
 const { createClient } = require('@supabase/supabase-js');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// 1. Configuración de CORS
 const allowedOrigins = [
-  'https://biblioteca-virtual-eicit-frontend.vercel.app', // <--- LA URL CORRECTA
+  'https://biblioteca-virtual-eicit-frontend.vercel.app', // URL de Vercel
   'http://localhost:3000',
-  'http://127.0.0.1:5500' // Por si usas Live Server localmente
+  'http://127.0.0.1:5500'
 ];
 
-// Configuración de Supabase y Base de Datos
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions)); // Aplica la configuración
+app.use(express.json());
+
+// 2. Configuración de Supabase y Base de Datos
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false } // Requerido para Supabase
+    ssl: { rejectUnauthorized: false }
 });
 
-// Configuración de Multer (Guardado en memoria, no en disco)
+// 3. Configuración de Multer
 const upload = multer({ storage: multer.memoryStorage() });
+
 
 app.use(cors({
   origin: function (origin, callback) {
