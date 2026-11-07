@@ -8,8 +8,7 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken'); // <-- Importamos JWT
 
 const app = express();
-const PORT = 3000;
-const SECRET_KEY = 'ClaveSuperSecretaBiblioteca2026'; // Clave para firmar los tokens
+const PORT = process.env.PORT || 3000;const SECRET_KEY = 'ClaveSuperSecretaBiblioteca2026'; // Clave para firmar los tokens
 
 // Middlewares
 app.use(cors());
