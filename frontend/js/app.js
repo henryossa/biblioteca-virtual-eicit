@@ -1,7 +1,6 @@
 // frontend/js/app.js
-
-const API_URL = 'http://localhost:3000/api/libros';
-const API_AREAS = 'http://localhost:3000/api/areas';
+const API_URL = 'https://biblioteca-backend-zxfv.onrender.com/api/libros';
+const API_AREAS = 'https://biblioteca-backend-zxfv.onrender.com/api/areas';
 
 document.addEventListener('DOMContentLoaded', () => {
     cargarAreas(); // Llena el desplegable

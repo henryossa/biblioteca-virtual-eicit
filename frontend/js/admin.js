@@ -1,6 +1,6 @@
 // frontend/js/admin.js
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://biblioteca-backend-zxfv.onrender.com/api';
 let TOKEN = localStorage.getItem('adminToken'); // Busca si ya hay una sesión guardada
 
 document.addEventListener('DOMContentLoaded', () => {
