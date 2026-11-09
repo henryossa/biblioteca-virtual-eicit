@@ -75,7 +75,7 @@ function verificarToken(req, res, next) {
 
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
-    if (password === 'admin123') {
+    if (password === process.env.ADMIN_PASSWORD) { 
         const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '2h' });
         res.json({ token });
     } else {
