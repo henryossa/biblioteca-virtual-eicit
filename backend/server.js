@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // 1. Configuración de CORS
 const allowedOrigins = [
-  'https://biblioteca-virtual-eicit-frontend.vercel.app', // URL de Vercel
+  'https://biblioteca-virtual-eicit-frontend.vercel.app',
   'http://localhost:3000',
   'http://127.0.0.1:5500'
 ];
